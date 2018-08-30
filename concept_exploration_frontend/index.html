@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html ng-app="CarDashboard">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Car Dashboard'</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Main Style Sheet -->
+        <link rel="stylesheet" href="less/__main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- Modernizr -->
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/vendor/echarts.min.js"></script>
+        <script src="js/vendor/mqttws31.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="lib/bower_components/angular/angular.min.js"></script>
+        <script src="lib/bower_components/angular-route/angular-route.min.js"></script>
+        <script src="lib/bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="lib/bower_components/angular-md5/angular-md5.min.js"></script>
+        <script src="lib/bower_components/angular-route-styles/route-styles.js"></script>
+        
+        <!--script src="lib/bower_components/d3/d3.min.js"></script-->
+        <script src="lib/bower_components/underscore/underscore-min.js"></script>
+        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="lib/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="lib/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="app/app.js"></script>
+        <script src="app/config.js"></script>
+        <script src="app/controller/index_ctrl.js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB3B6Claxiu8o0sEofxLV-ALREADY-HIDDEN&language=en"></script>
+        <!-- Token already changed, not working now https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B6Claxiu8o0sEofxLV-ALREADY-HIDDEN&callback=initMap-->
+
+    </head>
+<body class="homepage" ng-controller="index_ctrl">
+
+     <div class="navbar navbar-default navbar-fixed-top navbar_custom">
+<!--         <span class="icon fa fa-automobile fa-2x nav-icon"></span> -->
+        <img class="nav-icon col-lg-1 col-md-1 col-sm-1" src="img/car.jpg" height="35" width="80">
+        <span class="nav-text col-lg-10 col-md-10 col-sm-10">Feel Your Drive </span>
+
+        <i class="fa fa-cog pull-right debugBtn" ng-click="isDebugInfoShown = !isDebugInfoShown"></i>
+        
+      </div>
+
+    <div class="row content">
+      <div id="map_container" class="map_container col-lg-7 col-md-7 col-sm-7">
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-map-o"></i><h6>Display on Map</h6></div>
+          <div class="panel-body">
+            <div id="map"></div>
+<!--             <div id="city_class" ng-repeat="marker in markers | orderBy : 'title'">
+              <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div id="board_container" class="board_container col-lg-5 col-md-5 col-sm-5">
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-tachometer"></i><h6>Dash Board</h6></div>
+          <div class="panel-body">
+            <div id="dash_board"></div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-list"></i><h6>Driver Behavior</h6></div>
+          <div class="panel-body">
+             <p>This panel shows the driver behaviors like hard breaking and abrupt acceleration.
+             </p>
+          </div>
+          <table class="table">
+            <thead> <tr> <th>Time</th> <th>Location</th> <th>Action</th> </tr></thead>
+            <tbody> 
+              <tr ng-repeat="x in tableInfo">
+                <th scope="row">{{x.time}}</th>
+                <td>{{x.location}}</td><td>
+                <span ng-class="x.action === 'deceleration' ? 'label label-info' : 'label label-warning'">{{x.action}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>  
+
+        <div class="panel panel-default">
+          <div class="panel-heading"><i class="fa fa-list"></i><h6>Assistant Information</h6></div>
+          <div class="panel-body">
+             <p>This panel shows some assistant information for the driver. For instance, if the fuel tank is about to be empty, a warning message is displayed with some nearby gas station shown in the map.
+             </p>
+          </div>
+          <table class="table">
+            <thead> <tr> <th>Warning Item</th><th>Suggested Solution</th></tr></thead>
+            <tbody> 
+              <tr ng-repeat="x in assistantTable">
+                <th scope="row"><img ng-src="img/warning_fuel.png" height="25" width="25" alt="fuel warning"/>&nbsp {{x.name}}</th>
+                <td>
+                    <li ng-repeat="y in x.solution">{{y}}</li>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+    <div ng-show="isDebugInfoShown">
+      <div>Subscribed to <input type='text' id='topic' size="90" disabled />
+            Status: <input type='text' id='status' size="90" disabled />
+      </div>
+       <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul>
+    </div> 
+</body>
+</html>
