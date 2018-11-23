@@ -12,6 +12,6 @@ So my colleague Chao and I created a POC application which connects all the part
 ![video recording of the app](https://github.com/fengliangcmu/feel_your_drive/blob/master/recorded_video.gif)
 
 ## Notice:
-This repo only contains personal techinical exploration for the frontend. It does not include any final frondend code and backend artifacts that were used in a presentation Chao and I gave in DKOM (SAP Developer Conference).
+This repo only contains personal technical exploration for the frontend. It does not include any final frondend code and backend artifacts that were used in a presentation Chao and I gave in DKOM (SAP Developer Conference).
 
 
